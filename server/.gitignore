@@ -1,0 +1,6 @@
+uploads/
+*.sqlite
+*.sqlite-journal
+
+# local virtual env files
+env/
