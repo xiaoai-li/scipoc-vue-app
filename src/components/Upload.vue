@@ -2,8 +2,8 @@
   <div>
     <b-row v-if="!uploadCompleted">
       <b-col lg="8">
-        <b-form-file v-model="file" :state="Boolean(file)" \
-        placeholder="Choose a file..."></b-form-file>
+        <!-- eslint-disable-next-line max-len-->
+        <b-form-file v-model="file" :state="Boolean(file)" placeholder="Choose a file..."></b-form-file>
       </b-col>
       <b-col md="auto">
         <b-button variant="warning" @click="upload">Upload</b-button>
@@ -34,8 +34,8 @@ export default {
   name: 'Upload',
   data() {
     return {
-      API_ENDPOINT: process.env.API_ENDPOINT,
-      BASE_DOMAIN: process.env.BASE_DOMAIN,
+      API_ENDPOINT: process.env.VUE_APP_API_ENDPOINT,
+      BASE_DOMAIN: process.env.VUE_APP_BASE_DOMAIN,
       file: null,
       counter: 0,
       max: 100,
@@ -67,13 +67,12 @@ export default {
           },
         };
         this.$axios
-          .post('http://localhost:5000/upload', formdata, config)
+          .post(`${this.API_ENDPOINT}/upload`, formdata, config)
           .then((result) => {
             this.uploadedFileURL = result.data;
             this.uploadCompleted = true;
             this.uploadInProgress = false;
-            this.downloadURL = `${process.env.BASE_DOMAIN
-            }/#/download/${
+            this.downloadURL = `${this.BASE_DOMAIN}/#/download/${
               result.data.uploadUUID}`;
             console.dir(result.data);
           });

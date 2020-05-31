@@ -5,7 +5,7 @@
       <router-link to="/about">About</router-link>|
       <router-link to="/webmap">WebMap</router-link>|
       <router-link to="/upload">Upload</router-link>|
-      <router-link to="/download">Download</router-link>
+      <router-link to="/download/:id">Download</router-link>
     </div>
     <router-view />
   </div>

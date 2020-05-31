@@ -1,20 +1,8 @@
 <template>
   <div class="download">
-    <b-container>
-      <b-row>
-        <h1 style="font-weight: 500">fuse</h1>&nbsp;&nbsp;
-        <h2 style="font-weight: 300">a file upload web service</h2>
-      </b-row>
       <div style="border: 1px solid gray; padding: 25px; border-radius: 5px;margin: 60px">
         <download />
       </div>
-      <b-row class="footer">
-        <b-col>
-          &copy;2018 Antonio Vivace. See the
-          <a href="https://github.com/avivace/fuse">source</a>on GitHub.
-        </b-col>
-      </b-row>
-    </b-container>
   </div>
 </template>
 
