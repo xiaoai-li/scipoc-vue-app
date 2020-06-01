@@ -3,7 +3,12 @@
     <b-row v-if="!uploadCompleted">
       <b-col lg="8">
         <!-- eslint-disable-next-line max-len-->
-        <b-form-file v-model="file" :state="Boolean(file)" placeholder="Choose a file..."></b-form-file>
+        <b-form-file
+          v-model="file"
+          :state="Boolean(file)"
+          placeholder="Choose a file or drop it here..."
+          drop-placeholder="Drop file here..."
+        ></b-form-file>
       </b-col>
       <b-col md="auto">
         <b-button variant="warning" @click="upload">Upload</b-button>
@@ -16,16 +21,7 @@
         <b-progress height="2rem" :value="counter" :max="max" show-progress animated></b-progress>
       </b-col>
     </b-row>
-    <b-form v-if="uploadCompleted" inline>
-      Upload completed. Here's your link to share:&nbsp;&nbsp;
-      <b-form-textarea
-        @click.native="$event.target.select()"
-        @focus.native="$event.target.select()"
-        :value="downloadURL"
-        readonly
-        no-resize
-      ></b-form-textarea>
-    </b-form>
+    <b-form v-if="uploadCompleted" inline>Upload completed.</b-form>
   </div>
 </template>
 
@@ -72,15 +68,24 @@ export default {
             this.uploadedFileURL = result.data;
             this.uploadCompleted = true;
             this.uploadInProgress = false;
-            this.downloadURL = `${this.BASE_DOMAIN}/#/download/${
-              result.data.uploadUUID}`;
+            this.downloadURL = `${this.BASE_DOMAIN}/#/download/${result.data.uploadUUID}`;
             console.dir(result.data);
+            this.$router.push({
+              path: '/seg',
+              name: 'Segmentation', // 要跳转的路径的 name,在 router 文件夹下的 index.js 文件内找',
+              params: { id: result.data.uploadUUID },
+              /* query: {
+                name: 'name',
+                dataObj: this.msg
+            } */
+            });
           });
       }
     },
   },
 };
 </script>
+
 
 <style>
 .form-inline .form-control {

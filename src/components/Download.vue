@@ -16,7 +16,7 @@ export default {
   methods: {
     download() {
       setTimeout(() => {
-        window.location = `http://localhost:5000/file/${this.$route.params.id}`;
+        window.location = `${process.env.VUE_APP_API_ENDPOINT}/file/${this.$route.params.id}`;
       }, 2000);
     },
   },

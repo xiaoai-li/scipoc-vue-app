@@ -20,15 +20,26 @@ const routes = [
   {
     path: '/webmap',
     name: 'WebMap',
-    component: () => import(/* webpackChunkName: "about" */ '../views/WebView.vue'),
+    component: () => import('../views/WebView.vue'),
   },
   {
     path: '/upload',
-    component: () => import(/* webpackChunkName: "about" */ '../views/UploadView.vue'),
+    name: 'Uoload',
+    component: () => import('../views/UploadView.vue'),
+  },
+  {
+    path: '/seg',
+    name: 'Segmentation',
+    component: () => import('../views/SegmentationView.vue'),
+  },
+  {
+    path: '/seg/:id',
+    name: 'datapre',
+    component: About,
   },
   {
     path: '/download/:id',
-    component: () => import(/* webpackChunkName: "about" */ '../views/DownloadView.vue'),
+    component: () => import('../views/DownloadView.vue'),
   },
 
 ];

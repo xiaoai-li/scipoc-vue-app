@@ -78,6 +78,11 @@ def serve_file(fileID):
 		conn.commit()
 		conn.close()
 		return 'File not found', 404
+
+#####  REQUST FOR SEGMENTATION   #####
+@app.route('/seg/datapre/<id>', methods=['GET'])
+def data_preparation(id):
+	return id
 	
 if __name__ == "__main__":
 	app.run(debug=True,host= '192.168.3.14')
