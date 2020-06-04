@@ -7,6 +7,8 @@ import argparse
 import os
 import numpy as np
 
+def test():
+    print("hello!!!!!!!!!!!!!!")
 
 def prepare_s3dis_label(DEFAULT_DATA_DIR,DEFAULT_OUTPUT_DIR):
     # DEFAULT_DATA_DIR = 'data/58f60c7f6/Stanford3dDataset_v1.2_Aligned_Version'

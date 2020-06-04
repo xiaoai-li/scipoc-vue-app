@@ -10,7 +10,12 @@ from flask_cors import CORS, cross_origin
 import zipfile
 
 # py from scipoc
+from scipoc.data_conversions.prepare_s3dis_label import prepare_s3dis_label
+from scipoc.data_conversions.prepare_s3dis_data import prepare_s3dis_data
+from scipoc.data_conversions.prepare_s3dis_filelists import prepare_s3dis_filelists
 
+
+#prepare_s3dis_label("data/5581a3019/Stanford3dDataset_v1.2_Aligned_Version","data/5581a3019/S3DIS/prepare_label_rgb")
 app = Flask(__name__)
 CORS(app)
 
@@ -128,12 +133,37 @@ def data_preparation_unzip(uploadID):
 # label
 @app.route('/seg/datapre/labelling/<fileID>', methods=['GET'])
 def data_preparation_labelling(fileID):
-    count=0
-    for i in range(1000000):
-        count+=i
-        print(count)
-    return "count"
+    DEFAULT_DATA_DIR = 'data/'+fileID+'/Stanford3dDataset_v1.2_Aligned_Version'
+    DEFAULT_OUTPUT_DIR = 'data/'+fileID+'/S3DIS/prepare_label_rgb'
 
+    prepare_s3dis_label(DEFAULT_DATA_DIR,DEFAULT_OUTPUT_DIR)
+    response = jsonify({'path': DEFAULT_OUTPUT_DIR})
+
+    return response
+    
+
+# format
+@app.route('/seg/datapre/format/<fileID>', methods=['GET'])
+def data_preparation_formatting(fileID):
+    # TODO: make these paths to be global
+    DEFAULT_DATA_DIR = 'data/'+fileID+'/S3DIS/prepare_label_rgb/'
+    DEFAULT_PLY_OUTPUT_DIR = 'data/'+fileID+'/S3DIS/'
+
+    prepare_s3dis_data(DEFAULT_DATA_DIR,DEFAULT_PLY_OUTPUT_DIR)
+    response = jsonify({'root': DEFAULT_DATA_DIR,'ply_path': DEFAULT_PLY_OUTPUT_DIR})
+
+    return response
+
+# filelist
+@app.route('/seg/datapre/filelist/<fileID>', methods=['GET'])
+def data_preparation_filelisting(fileID):
+    # TODO: make these paths to be global
+    DEFAULT_DATA_DIR = 'data/'+fileID+'/S3DIS/prepare_label_rgb/'
+
+    prepare_s3dis_filelists(DEFAULT_DATA_DIR)
+    response = jsonify({'root': DEFAULT_DATA_DIR})
+
+    return response
 
 if __name__ == "__main__":
     app.run(debug=True, host='192.168.3.14')
