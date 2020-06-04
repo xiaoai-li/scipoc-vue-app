@@ -12,9 +12,9 @@ import argparse
 from datetime import datetime
 
 
-def main():
+def prepare_s3dis_filelists(DEFAULT_DATA_DIR):
     parser = argparse.ArgumentParser()
-    parser.add_argument('--folder', '-f', help='Path to data folder')
+    parser.add_argument('--folder', '-f', help='Path to data folder',default=DEFAULT_DATA_DIR)
     parser.add_argument('--h5_num', '-d', help='Number of h5 files to be loaded each time', type=int, default=8)
     parser.add_argument('--repeat_num', '-r', help='Number of repeatly using each loaded h5 list', type=int, default=2)
 
@@ -24,7 +24,8 @@ def main():
     root = args.folder if args.folder else '../../data/s3dis/'
 
     area_h5s = [[] for _ in range(6)]
-    for area_idx in range(1, 7):
+    area_indice=[1,6]
+    for area_idx in area_indice:
         folder = os.path.join(root, 'Area_%d' % area_idx)
         datasets = [dataset for dataset in os.listdir(folder)]
         for dataset in datasets:
@@ -34,7 +35,7 @@ def main():
                             if filename.endswith('.h5')]
             area_h5s[area_idx - 1].extend(filename_h5s)
 
-    for area_idx in range(1, 7):
+    for area_idx in area_indice:
         train_h5 = [filename for idx in range(6) if idx + 1 != area_idx for filename in area_h5s[idx]]
         random.shuffle(train_h5)
         train_list = os.path.join(root, 'train_files_for_val_on_Area_%d.txt' % area_idx)
@@ -61,7 +62,3 @@ def main():
         with open(val_list, 'w') as filelist:
             for filename_h5 in val_h5:
                 filelist.write(filename_h5)
-
-
-if __name__ == '__main__':
-    main()

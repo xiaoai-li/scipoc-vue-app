@@ -57,7 +57,20 @@
           </b-col>
         </b-row>
       </b-tab>
-      <b-tab title="Dataset Training">
+      <b-tab title="Tensorflow sampling compile">
+                <b-alert show >You have to <strong>compile FPS</strong> before the training!</b-alert>
+                            <b-button
+              variant="outline-primary"
+              :disabled="filelistComplete"
+              @click="filelisting"
+              v-show="!filelistInProgress"
+            >Compile FPS</b-button>
+            <b-button variant="primary" disabled v-show="filelistInProgress">
+              <b-spinner small type="grow"></b-spinner>filelisting...
+            </b-button>
+
+      </b-tab>
+      <b-tab title="Dataset Training" disabled>
         <p>I'm the second tab</p>
       </b-tab>
       <b-tab title="Result Validation" disabled>
@@ -169,3 +182,11 @@ export default {
   },
 };
 </script>
+
+
+<style scoped>
+.alert-warning{
+  background: rgb(250,235,204);
+  background: linear-gradient(0deg, rgba(250,235,204,1) 0%, rgba(250,227,204,1) 100%);
+  }
+</style>

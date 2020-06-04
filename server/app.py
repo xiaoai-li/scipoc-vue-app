@@ -14,6 +14,8 @@ from scipoc.data_conversions.prepare_s3dis_label import prepare_s3dis_label
 from scipoc.data_conversions.prepare_s3dis_data import prepare_s3dis_data
 from scipoc.data_conversions.prepare_s3dis_filelists import prepare_s3dis_filelists
 
+prepare_s3dis_filelists("data/3c4b7b0e5/S3DIS/prepare_label_rgb/")
+
 
 #prepare_s3dis_label("data/5581a3019/Stanford3dDataset_v1.2_Aligned_Version","data/5581a3019/S3DIS/prepare_label_rgb")
 app = Flask(__name__)
