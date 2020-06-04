@@ -1,4 +1,6 @@
 uploads/
+data/
+localfiles/
 *.sqlite
 *.sqlite-journal
 
