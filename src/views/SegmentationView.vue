@@ -5,7 +5,7 @@
   <div>
     <br />
     <b-tabs content-class="mt-3">
-      <b-tab title="Data Conversion" active>
+      <b-tab title="Dataset Conversion" active>
         <b-row class="justify-content-md-center" style="margin: 0 auto;width: 80%;">
           <!-- unzip data -->
           <b-col>
@@ -58,19 +58,22 @@
         </b-row>
       </b-tab>
       <b-tab title="Tensorflow sampling compile">
-                <b-alert show >You have to <strong>compile FPS</strong> before the training!</b-alert>
-                            <b-button
-              variant="outline-primary"
-              :disabled="filelistComplete"
-              @click="filelisting"
-              v-show="!filelistInProgress"
-            >Compile FPS</b-button>
-            <b-button variant="primary" disabled v-show="filelistInProgress">
-              <b-spinner small type="grow"></b-spinner>filelisting...
-            </b-button>
-
+        <b-alert
+          :class="this.compileFPSComplete ? 'alert alert-success' : 'alert alert-warning'"
+          show
+          v-html="this.compileFPSComplete ? this.infoSuccess : this.infoWarning"
+        ></b-alert>
+        <b-button
+          variant="outline-primary"
+          :disabled="compileFPSComplete"
+          @click="compileFPS"
+          v-show="!compileFPSInProgress"
+        >Compile FPS</b-button>
+        <b-button variant="primary" disabled v-show="compileFPSInProgress">
+          <b-spinner small type="grow"></b-spinner>FPS Compiling...
+        </b-button>
       </b-tab>
-      <b-tab title="Dataset Training" disabled>
+      <b-tab title="Dataset Training" :disabled="!compileFPSComplete">
         <p>I'm the second tab</p>
       </b-tab>
       <b-tab title="Result Validation" disabled>
@@ -96,15 +99,20 @@ export default {
       unzipInProgress: false,
       formatInProgress: false,
       filelistInProgress: false,
+      compileFPSInProgress: false,
       labelComplete: false,
       unziplComplete: false,
       formatComplete: false,
       filelistComplete: false,
+      compileFPSComplete: false,
+      infoWarning:
+        'You have to <strong>compile FPS</strong> before the training!',
+      infoSuccess: 'You can start <strong>TRAINING</strong> now!',
 
-
-      logContent: `<strong><code>${this.$route.params.filename}</code></strong>&nbsp;&nbsp; was uploaded successfully!`,
+      logContent: `${new Date().toLocaleString()}  <strong><code>${this.$route.params.filename}</code></strong>&nbsp;&nbsp; was uploaded successfully!`,
     };
   },
+
   methods: {
     unzipping() {
       this.unzipInProgress = true;
@@ -179,14 +187,34 @@ export default {
           console.log(error);
         });
     },
+    compileFPS() {
+      this.compileFPSInProgress = true;
+
+      this.$axios
+        .get(`${process.env.VUE_APP_API_ENDPOINT}/seg/sampling/compileFPS`)
+        .then((response) => {
+          console.log(response);
+          this.compileFPSInProgress = false;
+          this.compileFPSComplete = true;
+          const currentTime = new Date().toLocaleString();
+          this.logContent += `<br />${currentTime} <strong><code>${this.$route.params.filename}</code></strong>`;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
 };
 </script>
 
 
 <style scoped>
-.alert-warning{
-  background: rgb(250,235,204);
-  background: linear-gradient(0deg, rgba(250,235,204,1) 0%, rgba(250,227,204,1) 100%);
-  }
+.alert-warning {
+  background: rgb(250, 235, 204);
+  background: linear-gradient(
+    0deg,
+    rgba(250, 235, 204, 1) 0%,
+    rgba(250, 227, 204, 1) 100%
+  );
+}
 </style>

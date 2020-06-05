@@ -1,9 +1,6 @@
-matplotlib
-plyfile
-python-mnist
-requests
-scipy
-svgpathtools
-tensorflow-gpu>=1.9.0
-tqdm
+tensorflow-gpu=1.9.0
+cudnn
+cudatoolkit
 transforms3d
+h5py
+plyfile

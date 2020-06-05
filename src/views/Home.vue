@@ -1,7 +1,13 @@
+<!-- eslint-disable max-len -->
 <template>
   <div>
     <b-img src="../assets/cover.jpeg" class="d-block class-name" width="1024"></b-img>
-    <button class="btn_start" @click="go_to_upload">Let's SCIPoc!</button>
+    <div class="middle">
+    <button class="btn_start" @click="go_to_upload">Let's SCIPoC!</button>
+    <br/>
+        <h style="  color: cadetblue;font-size: 28px;" >Semantic Classification of Indoor Point Cloud</h>
+
+    </div>
     <a
       class="bottom-right"
       href="https://www.gim-international.com/content/article/lidar-point-cloud-segmentation"
@@ -35,6 +41,13 @@ export default {
   bottom: 8px;
   left: 16px;
 }
+.middle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
 
 /* Make the image responsive */
 .container img {
@@ -44,11 +57,6 @@ export default {
 
 /* Style the button and place it in the middle of the container/image */
 .btn_start {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
   color: white;
   font-size: 40px;
   padding: 15px 30px;
@@ -67,4 +75,6 @@ export default {
   border-radius: 5px;
   background: cadetblue;
 }
+
+
 </style>

@@ -8,16 +8,16 @@ from werkzeug.utils import secure_filename
 from flask_cors import CORS, cross_origin
 
 import zipfile
+import subprocess
+
 
 # py from scipoc
 from scipoc.data_conversions.prepare_s3dis_label import prepare_s3dis_label
 from scipoc.data_conversions.prepare_s3dis_data import prepare_s3dis_data
 from scipoc.data_conversions.prepare_s3dis_filelists import prepare_s3dis_filelists
 
-prepare_s3dis_filelists("data/3c4b7b0e5/S3DIS/prepare_label_rgb/")
 
 
-#prepare_s3dis_label("data/5581a3019/Stanford3dDataset_v1.2_Aligned_Version","data/5581a3019/S3DIS/prepare_label_rgb")
 app = Flask(__name__)
 CORS(app)
 
@@ -164,6 +164,14 @@ def data_preparation_filelisting(fileID):
 
     prepare_s3dis_filelists(DEFAULT_DATA_DIR)
     response = jsonify({'root': DEFAULT_DATA_DIR})
+
+    return response
+
+# compile FPS
+@app.route('/seg/sampling/compileFPS', methods=['GET'])
+def tf_sampling_compile():
+    # subprocess.Popen('bash tf_sampling_compile.sh',cwd="./scipoc/sampling")
+    response = jsonify({'info': "You can start training now!"})
 
     return response
 
